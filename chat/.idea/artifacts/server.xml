@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="server">
+    <output-path>$PROJECT_DIR$/out/artifacts</output-path>
+    <root id="archive" name="server.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/server/src/main/resources/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="server" />
+      <element id="module-output" name="chat" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

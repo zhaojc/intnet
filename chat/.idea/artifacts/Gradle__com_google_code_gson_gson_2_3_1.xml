@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact name="Gradle__com_google_code_gson_gson_2_3_1">
+    <output-path>$PROJECT_DIR$/out/artifacts/Gradle__com_google_code_gson_gson_2_3_1</output-path>
+    <root id="root">
+      <element id="library" level="project" name="Gradle: com.google.code.gson:gson:2.3.1" />
+    </root>
+  </artifact>
+</component>
