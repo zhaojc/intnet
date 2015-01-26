@@ -47,9 +47,7 @@ public class Client {
             message.addData("username", username);
             write(message);
 
-            String s = reader.readLine();
-            message = Message.deserialize(s);
-            System.out.println(s);
+            message = Message.deserialize(reader.readLine());
             if(message.getType() != Message.Type.USERNAME_CHANGED) {
                 displaySystemMessage("error", "Username unavailable.");
                 return false;
