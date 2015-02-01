@@ -1,0 +1,89 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Danning | Battleship</title>
+        <link rel="stylesheet" href="css/main.css" />
+        <script src="js/vendor/modernizr.js"></script>
+        <script src="js/ship.js"></script>
+        <script src="js/board.js"></script>
+        <script src="js/player.js"></script>
+    </head>
+    <body>
+        <nav class="top-bar" data-topbar role="navigation">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="#">Battleship</a></h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+                <ul class="right">
+                    <li>
+                        <a href="#" id="play-btn"><b>Start</b></a>
+                    </li>
+                    <li>
+                        <a href="http://en.wikipedia.org/wiki/Battleship_%28game%29" target="_blank"><b>Rules</b></a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+
+        <div class="small-4 columns" id="alert-container" style="float: right;"></div>
+
+        <div id="info-container" class="row">
+            <div class="small-12 columns">
+                <h1>Battleship</h1>
+                <p>Choose <b>Start</b> in the menu to begin playing the game!</p>
+            </div>
+        </div>
+
+        <div id="pre-container" class="row" style="display: none;">
+            <div class="small-12 columns">
+                <h3>Player <span id="input-player-id">1</span></h3>
+                <div class="row collapse">
+                    <div class="small-4 columns">
+                        <input type="text" placeholder="Name" id="player-name">
+                    </div>
+                    <div class="small-1 columns end">
+                        <a href="#" class="button postfix" id="create-player-btn">Go</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="post-container" class="row hide">
+            <div class="small-12 columns" id="winner-presentation"></div>
+        </div>
+
+        <div id="game-container" class="row" style="display: none;">
+            <div id="grid-container" class="small-11 columns"></div>  
+            <div id="display" class="small-3 columns">
+                <div class="row">
+                    <div class="small-12 columns">
+                        <h3>Current Target</h3>
+                        <p id="target-text"></p>
+                    </div>
+                </div>
+                <a href="#" id="fire-btn" class="button" style="display: none; width: 100%;">Fire!</a>
+                <a href="#" id="next-round-btn" class="button" style="display: none; width: 100%;">Next Round</a>
+                <div class="row">
+                    <div class="small-12 columns">
+                        <h3>Combat Log</h3>
+                        <div id="combat-log"></div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+
+        <!-- IMPORTZ -->
+        <script src="js/vendor/jquery.js"></script>
+        <script src="js/foundation.min.js"></script>
+        <script>
+            $(document).foundation();
+        </script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+@import url('foundation.min.css');
+@import url('foundation-icons.css');
+
+nav {
+	margin-bottom: 40px !important;
+}
+
+#top {
+	margin-top: 60px;
+}
+
+#grid-container {
+    margin-right: -17%;
+}
+
+.cell {
+    padding-top: 8.1%;
+    border: 1px solid #999;
+}
+
+.cell.marked {
+	background-color: yellow;
+}
+
+.cell.fired-at {
+    background-color: red;
+}
+
+.cell.fired-at.ship {
+    background-color: green;
+}
+
+#display .row {
+    background-color: #eee;
+    margin-bottom: 20px;
+    min-height: 120px;
+}
+
+#combat-log p {
+	margin-bottom: 0px;
+}
