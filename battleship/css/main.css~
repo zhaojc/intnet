@@ -1,0 +1,23 @@
+@import url('foundation.min.css');
+@import url('foundation-icons.css');
+
+#grid {
+    margin-right: -17%;
+}
+
+.cell {
+    padding-top: 8.1%;
+    border: 1px solid #999;
+}
+
+.cell .clicked {
+    background-color: yellow;
+}
+
+.cell .clicked .special {
+
+}
+
+#display {
+    background-color: #eee;
+}
