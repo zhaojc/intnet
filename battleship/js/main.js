@@ -8,7 +8,7 @@ $(document).ready(function(){
     /*
         UTILS
     */  
-    function getOtherPlayerIndex() {
+    function getAttackerPlayerIndex() {
         return (currentTarget == 0) ? 1 : 0;
     }
 
@@ -18,9 +18,9 @@ $(document).ready(function(){
 
     function addCombatLogEntry(hit, target) {
         var entry = $('<p class="log-entry"></p>');
-        entry.html('<b>' + players[getOtherPlayerIndex()].getName() + '</b> fired at ' + getCellText(target) + ': <i>' + (hit ? 'HIT' : 'MISS') + '</i>!');
+        entry.html('<b>' + players[getAttackerPlayerIndex()].getName() + '</b> fired at ' + getCellText(target) + ': <i>' + (hit ? 'HIT' : 'MISS') + '</i>!');
 
-        $('#combat-log').append(entry);
+        $('#combat-log').prepend(entry);
     }
 
     function alert(type, message) {
@@ -30,30 +30,34 @@ $(document).ready(function(){
         $(this).parent().remove();
     });
 
+    function reset() {
+        players = [];
+        currentTarget = 1;
+        currentSelection = null;
+        hasFired = false;
+
+        $('#input-player-id').text('1');
+        $('#player-name').val('');
+        $('#combat-log').empty();
+    }
+
 
     /*
         PRE-GAME
     */
-    $('#play-btn').click(function() {
+    $('.play-btn').click(function() {
         if(players.length !== 0) {
             if(!confirm('Do you really want to restart?')) {
                 return;
             }
 
-            $('#game-container').hide();
-            $('#grid-container').empty();
-
-            players = [];
-            currentTarget = 1;
-            currentSelection = null;
-            hasFired = false;
-
-            $('#input-player-id').text('1');
-            $('#player-name').val('');
-            $('#combat-log').empty();
+            reset();
         }
 
         $('#info-container').hide();
+        $('#game-container').hide();
+        $('#grid-container').empty();
+        $('#post-container').hide();
         $('#pre-container').show();
     });
 
@@ -122,16 +126,13 @@ $(document).ready(function(){
 
         hasFired = true;
 
-        var board = players[currentTarget].getBoard();
-        if(board.firedAt(currentSelection)) {
-            addCombatLogEntry(true, currentSelection);
+        var board = players[currentTarget].getBoard(),
+            hit = board.firedAt(currentSelection);
 
-            if(!board.hasShipLeft()) {
-                var winnerIndex = getOtherPlayerIndex();
-                end(currentTarget);
-            }
-        } else {
-            addCombatLogEntry(false, currentSelection);
+        addCombatLogEntry(hit, currentSelection);
+
+        if(hit && !board.hasShipLeft()) {
+            end();
         }
 
         $('#fire-btn').hide();
@@ -142,7 +143,7 @@ $(document).ready(function(){
         players[currentTarget].getBoard().hide();
         $('#next-round-btn').hide();
 
-        currentTarget = getOtherPlayerIndex();
+        currentTarget = getAttackerPlayerIndex();
         hasFired = false;
 
         if(currentSelection !== null) {
@@ -159,10 +160,12 @@ $(document).ready(function(){
     /*
         POST-GAME
     */
-    function end(winnerIndex) {
+    function end() {
         $('#game-container').hide(500);
 
-        $('#winner-presentation').text(players[winnerIndex].getName() + ' has won!');
+        $('#winner-presentation').text(players[getAttackerPlayerIndex()].getName() + ' has won!');
         $('#post-container').show(500);
+
+        reset();
     }
 });

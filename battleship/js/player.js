@@ -1,5 +1,5 @@
-function Player(name) {
-	var name = name,
+function Player(_name) {
+	var name = _name,
 		board = new Board();
 
 	this.getName = function() {

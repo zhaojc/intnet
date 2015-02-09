@@ -26,79 +26,7 @@ function Board() {
         return rows;
     });
 
-    var a = [];
-    for(var r = 0; r < 9; r++) {
-        a.push([]);
-        for(var c = 0; c < 9; c++) {
-            a[r].push(false);
-        }
-    }
-
-    var nrParts = 5;
-    var directions = [[-1, 0], [0, -1], [1, 0], [0, 1]];
-    var takenPositions = [];
-    while(nrParts > 1) {
-        var directionIndex = randomNumber(directions.length - 1);
-        var direction = directions[directionIndex];
-        var hasChangedDirection = false;
-        var shipParts = [[randomNumber(GRID_SIZE), randomNumber(GRID_SIZE - 1)]];
-        for(var i = 1; i < nrParts; i++) {
-            var row = shipParts[i - 1][0] + direction[0]
-                column = shipParts[i - 1][1] + direction[1];
-
-            //console.log(a[row][column] + ' ? ' + $.inArray(getCellAt(row, column), takenPositions));
-
-            if(row < 0 || row >= GRID_SIZE || column < 0 || column >= GRID_SIZE || a[row][column]) {//$.inArray(getCellAt(row, column), takenPositions) != -1) {
-                if(hasChangedDirection) {
-                    break;
-                }
-                //console.log(shipParts);
-
-                direction = directions[((directionIndex + directions.length/2) % directions.length)];
-                hasChangedDirection = true;
-                var element = shipParts[0]; 
-                shipParts.splice(0, 1);
-                shipParts.splice((i - 1), 0, element);
-                //console.log(shipParts);
-                i--;
-            } else {
-                shipParts.push([row, column]);
-            }
-        }
-
-        if(shipParts.length === nrParts) {
-            ships.push(shipParts);
-
-            for(var i = 0; i < nrParts; i++) {
-                var part = shipParts[i];
-                takenPositions.push(getCellAt(part[0], part[1]));
-                a[part[0]][part[1]] = true;
-            }
-
-            nrParts--;
-        }
-    }
-
-    var tmp = [];
-    for(var s = 0; s < ships.length; s++) {
-        var str = '';
-        var cells = [];
-        for(var i = 0; i < ships[s].length; i++) {
-            cells.push(getCellAt(ships[s][i][0], ships[s][i][1]));
-            str += '(' + ships[s][i][0] + ', ' + ships[s][i][1] + ')';
-        }
-        console.log(str);
-
-        tmp.push(new Ship(cells));
-    }
-    ships = tmp;
-
-
-    function getCellAt(row, column) {
-        console.log(grid);
-        return grid.children().eq(row).children().eq(column);
-    }
-
+    ships.push(new Ship([[0, 0], [0, 1], [0, 2]]));
 
     this.firedAt = function(target) {
         target.addClass('fired-at');
@@ -137,4 +65,87 @@ function Board() {
     function randomNumber(limit) {
         return Math.floor(Math.random() * limit);
     }
+}
+
+
+function createAreas(areas, area, rectangle) {
+    if(area[0] < rectangle[0]) { //left
+        areas.push([area[0], area[1], area[2], rectangle[2]]);
+        console.log('left: ' + [area[0], area[1], area[2], rectangle[2]]);
+    }
+    
+    if((area[0] + area[1]) > (rectangle[0] + rectangle[1])) { //right
+        areas.push([area[0], area[1], (rectangle[2] + rectangle[3]), ((area[2] + area[3]) - rectangle[2] + rectangle[3])]);
+        console.log('right: ' + [area[0], area[1], (rectangle[2] + rectangle[3]), (area[3] - rectangle[2] - rectangle[3])]);
+    }
+    
+    if(area[2] < rectangle[2]) { //top
+        areas.push([(area[0]), (rectangle[0] - area[0]), rectangle[2], rectangle[3]]);
+            console.log('top: ' + [(area[0]), (rectangle[0] - area[0]), rectangle[2], rectangle[3]]);
+    }
+    
+    if((area[2] + area[3]) > (rectangle[2] + rectangle[3])) { //bottom
+        areas.push([(rectangle[0] + rectangle[1]), (area[1] - (rectangle[0] + rectangle[1])), rectangle[2], rectangle[3]]);
+                console.log('bottom: ' + [(rectangle[0] + rectangle[1]), (area[1] - (rectangle[0] + rectangle[1])), rectangle[2], rectangle[3]]);
+    }
+}
+
+function randomNumber(limit) {
+    return Math.floor(Math.random() * limit);
+}
+
+var ships = [];
+
+var sizes = [5, 4, 3, 2];
+    areas = [[0, 9, 0, 9]];
+
+for(var s = 0; s < sizes.length; s++) {
+    var size = sizes[s];
+    var areaIndex = randomNumber(areas.length),
+        area = areas[areaIndex];
+   
+    var rowWisePossible = area[1] >= size,
+        columnWisePossible = area[3] >= size;
+    
+    if(!rowWisePossible && !columnWisePossible) {
+        s--;
+        areas.splice(areaIndex, 1);
+        continue;
+    }
+    
+    var rowWise = randomNumber(2) == 0;
+    
+    var rectangle,
+        ship = [];
+    if(rowWisePossible && rowWise || !columnWisePossible) {
+        var startRow = area[0] + randomNumber(area[1] - size),
+            column = area[2] + randomNumber(area[3] - area[2]);
+        
+        rectangle = [startRow, size, column, 1];
+        
+        for(var i = 0; i < size; i++) {
+            ship.push([(startRow + i), column]);
+        }
+    } else {
+        var row = area[0] + randomNumber(area[1] - area[0]),
+            startColumn = area[2] + randomNumber(area[3] - size);
+        
+        rectangle = [row, 1, startColumn, size];
+        
+        for(var i = 0; i < size; i++) {
+            ship.push([row, (startColumn + 1)]);
+        }
+    }
+    
+    areas.splice(areaIndex, 1);
+    createAreas(areas, area, rectangle);
+    ships.push(ship);
+}
+
+for(var s = 0; i < ships.length; s++) {
+    var str = '';
+    for(var p = 0; p < ships[s].length; p++) {
+        str += '(' + ships[s][p][0] + ', ' + ships[s][p][1] + ') ';
+    }
+    console.log(str);
 }

@@ -22,7 +22,7 @@
             <section class="top-bar-section">
                 <ul class="right">
                     <li>
-                        <a href="#" id="play-btn"><b>Start</b></a>
+                        <a href="#" class="play-btn"><b>Start</b></a>
                     </li>
                     <li>
                         <a href="http://en.wikipedia.org/wiki/Battleship_%28game%29" target="_blank"><b>Rules</b></a>
@@ -54,8 +54,15 @@
             </div>
         </div>
 
-        <div id="post-container" class="row hide">
-            <div class="small-12 columns" id="winner-presentation"></div>
+        <div id="post-container" class="row" style="display: none;">
+            <div class="small-12 columns">
+                <div class="row">
+                    <div class="small-12 columns"><h1 id="winner-presentation"></h1></div>
+                </div>
+                <div class="row">
+                    <div class="small-12 columns"><a href="#" class="play-btn"><b>Play again?</b></a></div>
+                </div>
+            </div>
         </div>
 
         <div id="game-container" class="row" style="display: none;">
